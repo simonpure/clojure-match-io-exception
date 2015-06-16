@@ -41,6 +41,23 @@ $ uname -a
 Linux 7siech 3.13.0-51-generic #84-Ubuntu SMP Wed Apr 15 12:08:34 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
+# solution
+It turns out this is due to a known limitation with ecryptfs and you most likely have an encrypted home directory. The only workaround really is to build in a directory that has no encryption.
+
+Details about this feature/bug here: https://bugs.launchpad.net/ecryptfs/+bug/344878
+
+# quick workaround
+A quick way is to create a file system in a file, mount it and build from there.
+
+```
+# create 20MB
+dd if=/dev/zero of=unecryptfs bs=1024 count=20480
+mkfs -t ext4 unecryptfs
+mkdir /media/unecrypt
+mount -o loop unecryptfs /media/unecrypt
+```
+
+
 ## License
 
 Copyright © 2015 FIXME
